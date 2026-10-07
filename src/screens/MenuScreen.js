@@ -7,10 +7,11 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import { CATEGORIES, MENU } from '../data/menu';
+import { CATEGORIES } from '../data/menu';
 import { WEB_BREAKPOINT, colors } from '../theme';
 import { useCart } from '../store/CartContext';
 import { useStore } from '../store/StoreContext';
+import { useProducts } from '../store/ProductsContext';
 import CategoryChips from '../components/CategoryChips';
 import ProductCard from '../components/ProductCard';
 import { CartPanel } from '../components/Cart';
@@ -20,17 +21,18 @@ export default function MenuScreen() {
   const wide = width >= WEB_BREAKPOINT;
   const { count } = useCart();
   const { store } = useStore();
+  const { products, loading, online } = useProducts();
   const [cat, setCat] = useState('All');
   const [q, setQ] = useState('');
 
   const items = useMemo(() => {
     const needle = q.trim().toLowerCase();
-    return MENU.filter(
+    return products.filter(
       (m) =>
         (cat === 'All' || m.category === cat) &&
         (!needle || m.name.toLowerCase().includes(needle)),
     );
-  }, [cat, q]);
+  }, [cat, q, products]);
 
   const grid = (
     <View style={styles.grid}>
@@ -51,10 +53,11 @@ export default function MenuScreen() {
       <TextInput
         value={q}
         onChangeText={setQ}
-        placeholder="Search menu…"
+        placeholder={online ? "Search menu (online)…" : "Search menu…"}
         placeholderTextColor={colors.muted}
         style={styles.search}
       />
+      {loading && <Text style={styles.count}>Loading online products…</Text>}
       <Text style={styles.section}>Categories</Text>
       <CategoryChips categories={CATEGORIES} active={cat} onSelect={setCat} />
       <View style={styles.titleRow}>

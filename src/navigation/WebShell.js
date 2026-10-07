@@ -15,6 +15,7 @@ import { useStore } from '../store/StoreContext';
 const RAIL = [
   { name: 'Home', icon: 'home-outline', activeIcon: 'home' },
   { name: 'Menu', icon: 'grid-outline', activeIcon: 'grid' },
+  { name: 'Inventory', icon: 'cube-outline', activeIcon: 'cube' },
   { name: 'Orders', icon: 'receipt-outline', activeIcon: 'receipt' },
   { name: 'Promo', icon: 'pricetag-outline', activeIcon: 'pricetag' },
   { name: 'Alerts', icon: 'notifications-outline', activeIcon: 'notifications' },
@@ -25,7 +26,8 @@ export default function WebShell({ tabs }) {
   const [active, setActive] = useState('Menu');
   const { count } = useCart();
   const { store } = useStore();
-  const Screen = tabs.find((t) => t.name === active).component;
+  const found = tabs.find((t) => t.name === active);
+  const Screen = found ? found.component : tabs[0].component;
 
   return (
     <SafeAreaView style={styles.root}>

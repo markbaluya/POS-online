@@ -7,10 +7,15 @@ import { useStore } from '../store/StoreContext';
 export default function ProductCard({ item, onPress }) {
   const { add } = useCart();
   const { money } = useStore();
+  const source = typeof item.image === "number" ? item.image : item.image_url ? { uri: item.image_url } : null;
   return (
     <View style={styles.card}>
       <TouchableOpacity activeOpacity={0.9} onPress={onPress}>
-        <Image source={item.image} style={styles.thumb} resizeMode="cover" />
+        {source ? (
+          <Image source={source} style={styles.thumb} resizeMode="cover" />
+        ) : (
+          <View style={[styles.thumb, styles.thumbFallback]} />
+        )}
         <View style={styles.badge}>
           <Text style={styles.badgeText}>★ {item.rating}</Text>
         </View>
@@ -40,6 +45,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   thumb: { width: '100%', height: 110, borderRadius: 12, backgroundColor: '#EDEDEF' },
+  thumbFallback: { backgroundColor: '#E8E8EC' },
   badge: {
     position: 'absolute',
     top: 14,

@@ -6,6 +6,7 @@ import { useWindowDimensions } from 'react-native';
 import { WEB_BREAKPOINT, colors } from '../theme';
 import HomeScreen from '../screens/HomeScreen';
 import MenuScreen from '../screens/MenuScreen';
+import InventoryScreen from '../screens/InventoryScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import PromoScreen from '../screens/PromoScreen';
 import AlertsScreen from '../screens/AlertsScreen';
@@ -17,6 +18,7 @@ const Tab = createBottomTabNavigator();
 export const TABS = [
   { name: 'Home', component: HomeScreen, icon: 'home-outline', activeIcon: 'home' },
   { name: 'Menu', component: MenuScreen, icon: 'grid-outline', activeIcon: 'grid' },
+  { name: 'Inventory', component: InventoryScreen, icon: 'cube-outline', activeIcon: 'cube' },
   { name: 'Orders', component: OrdersScreen, icon: 'receipt-outline', activeIcon: 'receipt' },
   { name: 'Promo', component: PromoScreen, icon: 'pricetag-outline', activeIcon: 'pricetag' },
   { name: 'Alerts', component: AlertsScreen, icon: 'notifications-outline', activeIcon: 'notifications' },
@@ -35,6 +37,7 @@ export default function AppNavigator() {
           screens: {
             Home: '',
             Menu: 'menu',
+            Inventory: 'inventory',
             Orders: 'orders',
             Promo: 'promo',
             Alerts: 'alerts',

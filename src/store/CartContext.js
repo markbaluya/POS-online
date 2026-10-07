@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
-import { itemById } from '../data/menu';
+import { resolveProduct } from '../data/productRegistry';
 
 const CartContext = createContext(null);
 
@@ -28,7 +28,7 @@ export function CartProvider({ children }) {
 
   const value = useMemo(() => {
     const entries = Object.entries(lines)
-      .map(([id, qty]) => ({ item: itemById(id), qty }))
+      .map(([id, qty]) => ({ item: resolveProduct(id), qty }))
       .filter((e) => e.item && e.qty > 0);
     const count = entries.reduce((n, e) => n + e.qty, 0);
     const subtotal = entries.reduce((t, e) => t + e.item.price * e.qty, 0);
