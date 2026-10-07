@@ -2,9 +2,18 @@
 // Embedded SQLite via modern expo-sqlite sync API. No server, no internet.
 import * as SQLite from "expo-sqlite";
 
-export const db = SQLite.openDatabaseSync("pos_inventory.db");
+let _db = null;
+
+// Lazy open: importing this module never throws (web without COOP/COOP
+// headers has no SharedArrayBuffer, so open is deferred to first use
+// where callers can catch and show a fallback).
+export function getDb() {
+  if (!_db) _db = SQLite.openDatabaseSync("pos_inventory.db");
+  return _db;
+}
 
 export function initDatabase() {
+  const db = getDb();
   // WAL mode for speed (DDL: PRAGMA)
   db.execSync(`PRAGMA journal_mode = WAL;`);
 
@@ -37,19 +46,19 @@ export function initDatabase() {
 
 // READ all (CLO 2.4)
 export function getAllProducts() {
-  return db.getAllSync("SELECT * FROM products ORDER BY id DESC;");
+  return getDb().getAllSync("SELECT * FROM products ORDER BY id DESC;");
 }
 
 // SEARCH with parameterized LIKE (CLO 2.4, 2.5) — no string concat, no injection
 export function searchProductsByName(search) {
-  return db.getAllSync("SELECT * FROM products WHERE name LIKE ? ORDER BY name ASC;", [
+  return getDb().getAllSync("SELECT * FROM products WHERE name LIKE ? ORDER BY name ASC;", [
     `%${search}%`,
   ]);
 }
 
 // CREATE (CLO 2.4)
 export function insertProduct(name, category, price, stock) {
-  return db.runSync(
+  return getDb().runSync(
     "INSERT INTO products (name, category, price, stock) VALUES (?, ?, ?, ?);",
     [name, category, price, stock]
   );
@@ -57,10 +66,10 @@ export function insertProduct(name, category, price, stock) {
 
 // DELETE (CLO 2.4)
 export function deleteProductById(id) {
-  return db.runSync("DELETE FROM products WHERE id = ?;", [id]);
+  return getDb().runSync("DELETE FROM products WHERE id = ?;", [id]);
 }
 
 // BONUS: stock +/- (UPDATE)
 export function changeStock(id, delta) {
-  return db.runSync("UPDATE products SET stock = stock + ? WHERE id = ?;", [delta, id]);
+  return getDb().runSync("UPDATE products SET stock = stock + ? WHERE id = ?;", [delta, id]);
 }
