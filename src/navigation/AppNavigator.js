@@ -6,6 +6,7 @@ import { useWindowDimensions } from 'react-native';
 import { WEB_BREAKPOINT, colors } from '../theme';
 import HomeScreen from '../screens/HomeScreen';
 import MenuScreen from '../screens/MenuScreen';
+import SQLitePOSScreen from '../screens/SQLitePOSScreen';
 import InventoryScreen from '../screens/InventoryScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import PromoScreen from '../screens/PromoScreen';
@@ -18,7 +19,8 @@ const Tab = createBottomTabNavigator();
 export const TABS = [
   { name: 'Home', component: HomeScreen, icon: 'home-outline', activeIcon: 'home' },
   { name: 'Menu', component: MenuScreen, icon: 'grid-outline', activeIcon: 'grid' },
-  { name: 'Inventory', component: InventoryScreen, icon: 'cube-outline', activeIcon: 'cube' },
+  { name: 'Inventory', component: SQLitePOSScreen, icon: 'cube-outline', activeIcon: 'cube' },
+  { name: 'Online', component: InventoryScreen, icon: 'cloud-outline', activeIcon: 'cloud' },
   { name: 'Orders', component: OrdersScreen, icon: 'receipt-outline', activeIcon: 'receipt' },
   { name: 'Promo', component: PromoScreen, icon: 'pricetag-outline', activeIcon: 'pricetag' },
   { name: 'Alerts', component: AlertsScreen, icon: 'notifications-outline', activeIcon: 'notifications' },
@@ -38,6 +40,7 @@ export default function AppNavigator() {
             Home: '',
             Menu: 'menu',
             Inventory: 'inventory',
+            Online: 'online',
             Orders: 'orders',
             Promo: 'promo',
             Alerts: 'alerts',

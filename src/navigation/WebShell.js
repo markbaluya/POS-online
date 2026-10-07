@@ -16,6 +16,7 @@ const RAIL = [
   { name: 'Home', icon: 'home-outline', activeIcon: 'home' },
   { name: 'Menu', icon: 'grid-outline', activeIcon: 'grid' },
   { name: 'Inventory', icon: 'cube-outline', activeIcon: 'cube' },
+  { name: 'Online', icon: 'cloud-outline', activeIcon: 'cloud' },
   { name: 'Orders', icon: 'receipt-outline', activeIcon: 'receipt' },
   { name: 'Promo', icon: 'pricetag-outline', activeIcon: 'pricetag' },
   { name: 'Alerts', icon: 'notifications-outline', activeIcon: 'notifications' },
